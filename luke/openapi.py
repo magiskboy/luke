@@ -1,4 +1,4 @@
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 import yaml
 
 
@@ -98,7 +98,7 @@ class Endpoint:
                 except KeyError:
                     continue
 
-    def get_content_spec(self, code: str, content_type: str) -> dict | None:
+    def get_content_spec(self, code: str, content_type: str) -> Optional[dict]:
         return self.content_specs.get((code, content_type))
 
     def get_headers_spec(self) -> dict:

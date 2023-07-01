@@ -1,4 +1,8 @@
-from typing import Annotated
+try:
+    from typing import Annotated            # type: ignore
+except ImportError:
+    from typing_extensions import Annotated # type: ignore
+
 import uvicorn
 import typer
 from .server_generator import ServerGenerator

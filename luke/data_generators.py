@@ -1,4 +1,4 @@
-from typing import Type, Any
+from typing import Type, Any, Union
 import string
 import random
 from .format import generate_data_by_format
@@ -27,7 +27,7 @@ def get_field_generator(name: str):
 
 
 class NumberFieldGenerator(FieldGenerator):
-    def gen_data(self, spec: dict) -> int | float:
+    def gen_data(self, spec: dict) -> Union[int, float]:
         minimum = spec.get("minimum", MINIMUM_INT32)
         maximum = spec.get("maximum", MAXIMUM_INT32)
         format = spec.get("format", "integer")
