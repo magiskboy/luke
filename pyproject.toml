@@ -13,7 +13,7 @@ authors = [
 license = "MIT"
 dynamic = ["version"]
 classifiers = [
-    "Development Status :: 1 - Dev Alpha",
+    "Development Status :: 1 - Alpha",
     "Environment :: Web Environment",
     "Framework :: AnyIO",
     "Intended Audience :: Developers",
