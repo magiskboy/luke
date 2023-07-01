@@ -13,7 +13,7 @@ authors = [
 license = "MIT"
 dynamic = ["version"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 1 - Dev Alpha",
     "Environment :: Web Environment",
     "Framework :: AnyIO",
     "Intended Audience :: Developers",
@@ -44,11 +44,6 @@ dev = [
     "pytest==7.3.1",
     "pytest-cov==4.0.0",
     "types-PyYAML",
-]
-
-publish = [
-    "twine",
-    "build"
 ]
 
 [project.scripts]
