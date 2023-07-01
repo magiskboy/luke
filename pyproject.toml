@@ -62,7 +62,6 @@ path = "luke/__init__.py"
 
 [tool.mypy]
 ignore_missing_imports = true
-# explicit_package_bases = true
 check_untyped_defs = true
 
 [tool.coverage.run]

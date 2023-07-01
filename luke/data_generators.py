@@ -13,7 +13,7 @@ MAXIMUM_INT64 = 2_147_483_647
 
 class FieldGenerator:
     def gen_data(self, spec: dict) -> Any:
-        raise NotImplementedError()
+        raise NotImplementedError()   # pragma: no cover
 
 
 def register_field_generator(name: str, generator: Type[FieldGenerator]):
@@ -54,8 +54,7 @@ class IntegerFieldGenerator(NumberFieldGenerator):
 
 class FloatFieldGenerator(NumberFieldGenerator):
     def gen_data(self, spec) -> float:
-        format = spec.get("format", "float")
-        return super().gen_data({**spec, "format": format})
+        return super().gen_data({**spec, "format": "float"})
 
 
 class StringFieldGenerator(FieldGenerator):
@@ -119,7 +118,7 @@ class ArrayFieldGenerator(FieldGenerator):
 
 class BooleanFieldGenerator(FieldGenerator):
     def gen_data(self, spec):
-        return True
+        return random.choice([True, False])
 
 
 class Generator:
