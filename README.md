@@ -1,4 +1,4 @@
-![Lucky Luke](./images/luke.png)
+![Lucky Luke](https://i.ibb.co/vL1MmML/luke.png)
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/magiskboy/luke/test-suite.yml)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/magiskboy/luke)
