@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export PREFIX=""
+if [ -d 'env' ] ; then
+    export PREFIX="env/bin/"
+fi
+export SOURCE_FILES="luke tests"
+
+set -x
+
+${PREFIX}mypy $SOURCE_FILES
+${PREFIX}ruff check $SOURCE_FILES

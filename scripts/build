@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+if [ -d 'env' ] ; then
+    PREFIX="env/bin/"
+else
+    PREFIX=""
+fi
+
+set -x
+
+${PREFIX}python -m build
+${PREFIX}twine check dist/*

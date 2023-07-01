@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "luke"
+description = "Data generator for OpenAPI"
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [
+    { name = "Nguyen Khac Thanh", email = "nguyenkhacthanh244@gmail.com" },
+]
+dynamic = ["version"]
+dependencies = [
+    "xeger",
+    "fastapi",
+    "uvicorn",
+    "pyyaml",
+    "typer",
+    "faker"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.3.1",
+    "pytest-cov==4.0.0",
+]
+
+dev = [
+    "pre-commit",
+    "mypy",
+    "ruff",
+]
+
+[project.scripts]
+luke = "luke.main:cli"
+
+[project-urls]
+Homepage = "https://github.com/magiskboy/luke"
+
+[tool.hatch.version]
+path = "luke/__init__.py"
+
+[tool.mypy]
+ignore_missing_imports = true
+# explicit_package_bases = true
+check_untyped_defs = true
+
+[tool.coverage.run]
+omit = ["tests/*"]
+
+[tool.coverage.path]
+source = "luke"
+
+[tool.coverage.report]
+fail_under = 30
+show_missing = true
+sort = "Cover"
+
+[tool.ruff]
+ignore = ["E501"]
