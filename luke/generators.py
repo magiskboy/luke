@@ -1,6 +1,7 @@
 from typing import Type, Any, Union
 import string
 import random
+from xeger import xeger
 from .format import generate_data_by_format
 
 _field_generator_registry = {}
@@ -62,12 +63,7 @@ class StringFieldGenerator(FieldGenerator):
         pattern = spec.get("pattern")
         
         if pattern:
-            try:
-                from xeger import Xeger
-                x = Xeger()
-                return x.xeger(pattern)
-            except Exception:
-                ...
+            return xeger(pattern)
 
         format_name = spec.get("luke.format")
         if format_name:

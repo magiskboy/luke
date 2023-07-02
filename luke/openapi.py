@@ -1,5 +1,13 @@
+import logging
+import json
 from typing import List, Dict, Any, Tuple, Optional
 import yaml
+import httpx
+import jsonschema
+from .schemas import openapi3_0_schema
+
+
+logger = logging.getLogger("luke")
 
 
 class OpenAPISpec:
@@ -7,22 +15,55 @@ class OpenAPISpec:
         self.endpoints: List[Endpoint] = []
         self.spec = dict()
 
-    @property
-    def info(self) -> dict:
-        return self.spec.get("info", {})
+    def load(self, filename_or_url: str):
+        spec = self.load_file(filename_or_url)
+        self.parse_spec(spec)
 
-    def load_from_file(self, file):
-        spec_data = yaml.load(file, yaml.Loader)
-        self.spec = spec_data
+    def parse_spec(self, spec: dict):
+        self.spec = spec
 
-        for path, endpoints in spec_data["paths"].items():
+        for path, endpoints in spec["paths"].items():
             for method, endpoint_spec in endpoints.items():
                 try:
                     endpoint = Endpoint(path, method, self)
                     endpoint.load_spec(endpoint_spec)
                     self.endpoints.append(endpoint)
-                except (ValueError, KeyError):
-                    pass
+                except (ValueError, KeyError) as e:
+                    logger.warn(f"Ignore path {method}:{path} because of {str(e)}")
+
+    @classmethod
+    def open_from_url(cls, url: str) -> str:
+        with httpx.Client() as client:
+            response = client.get(url, timeout=10)
+            response.raise_for_status()    
+            return response.text
+
+    @classmethod
+    def open_from_file(cls, filename: str):
+        with open(filename, "r") as f:
+            return f.read()
+
+    @classmethod
+    def load_file(cls, filename_or_url: str) -> dict:
+        content = None
+        if filename_or_url.startswith("https://") or filename_or_url.startswith("http://"):
+            content = cls.open_from_url(filename_or_url)
+        else:
+            content = cls.open_from_file(filename_or_url)
+
+        if not content:
+            raise ValueError("File is empty")
+
+        try:
+            spec = yaml.load(content, yaml.Loader)
+        except Exception:
+            spec = json.loads(content)
+
+        return spec
+
+    @classmethod
+    def validate_openapi(cls, spec: dict):
+        return jsonschema.validate(spec, openapi3_0_schema) 
 
     def resolve_spec(self, spec: dict) -> dict:
         resolved = spec
@@ -54,6 +95,11 @@ class OpenAPISpec:
             node = node[node_name]
 
         return node
+
+
+    @property
+    def info(self) -> dict:
+        return self.spec.get("info", {})
 
 
 class Endpoint:
@@ -103,5 +149,3 @@ class Endpoint:
 
     def get_headers_spec(self) -> dict:
         return self.headers_spec
-
-

@@ -1,5 +1,12 @@
 import pytest
-from luke.data_generators import NumberFieldGenerator, StringFieldGenerator, BooleanFieldGenerator, IntegerFieldGenerator, FloatFieldGenerator, Generator
+from luke.generators import (
+    NumberFieldGenerator,
+    StringFieldGenerator,
+    BooleanFieldGenerator,
+    IntegerFieldGenerator,
+    FloatFieldGenerator,
+    Generator,
+)
 
 
 @pytest.mark.parametrize("spec,type_", [

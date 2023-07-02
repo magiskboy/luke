@@ -28,12 +28,14 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
 ]
 dependencies = [
-    "xeger",
-    "fastapi",
+    "py-xeger",
+    "starlette",
     "uvicorn",
     "pyyaml",
     "typer",
-    "faker"
+    "faker",
+    "jsonschema",
+    "httpx",
 ]
 
 [project.optional-dependencies]
@@ -55,6 +57,9 @@ Homepage = "https://github.com/magiskboy/luke"
 [tool.hatch.version]
 path = "luke/__init__.py"
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.mypy]
 ignore_missing_imports = true
 check_untyped_defs = true
@@ -66,7 +71,7 @@ omit = ["tests/*"]
 source = "luke"
 
 [tool.coverage.report]
-fail_under = 30
+fail_under = 50
 show_missing = true
 sort = "Cover"
 
