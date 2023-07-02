@@ -17,6 +17,7 @@ class OpenAPISpec:
 
     def load(self, filename_or_url: str):
         spec = self.load_file(filename_or_url)
+        self.validate_openapi(spec)
         self.parse_spec(spec)
 
     def parse_spec(self, spec: dict):

@@ -1,22 +1,53 @@
-![Lucky Luke](https://i.ibb.co/vL1MmML/luke.png)
+<p align="center">
+  <img width="420px" src="https://i.ibb.co/vL1MmML/luke.png" alt='py-luke'>
+</p>
+<p align="center">
+    <em>Working on OpenAPI easily.</em>
+</p>
+<p align="center">
+    <a href="https://github.com/magiskboy/luke/actions">
+        <img src="https://github.com/magiskboy/luke/actions/workflows/test-suite.yml/badge.svg" alt="Build Status">
+    </a>
+    <a href="https://app.codecov.io/gh/magiskboy/luke">
+        <img src="https://img.shields.io/codecov/c/github/magiskboy/luke" alt="Code coverage">
+    </a>
+    <a href="https://pypi.org/project/py-luke/">
+        <img src="https://img.shields.io/pypi/dd/py-luke" alt="Download PyPi">
+    </a>
+    <a href="https://github.com/magiskboy/luke/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/magiskboy/luke" alt="MIT">
+    </a>
+    <a href="https://pypi.org/project/py-luke/">
+        <img src="https://img.shields.io/pypi/pyversions/py-luke" alt="Py version">
+    </a>
+    <a href="https://pypi.org/project/py-luke/">
+        <img src="https://img.shields.io/pypi/v/py-luke" alt="PyPi version">
+    </a>
+</p>
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/magiskboy/luke/test-suite.yml)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/magiskboy/luke)
-![Codecov](https://img.shields.io/codecov/c/github/magiskboy/luke)
-![PyPI - Downloads](https://img.shields.io/pypi/dd/py-luke)
-![GitHub](https://img.shields.io/github/license/magiskboy/luke)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py-luke)
-![PyPI](https://img.shields.io/pypi/v/py-luke)
 
+## Features
 
-## Overview
+Some of main features:
 
-Luke is a mock server based on OpenAPI Specification. All of you need to do is declaring OpenAPI document and starting luke server with it.
+- Create a mock server for OpenAPI document
+- Validate OpenAPI document
+- Bundle OpenAPI fragments into the single document
+
+py-luke supports both json and yaml type. Besides, you can also open file via path or URL.
 
 ## Installation
 
+You can install py-luke from PyPi 
+
 ```bash
 $ pip install py-luke
+```
+
+Or from docker
+
+```bash
+$ docker run nguyenkhacthanh/luke:latest
 ```
 
 ## Usage
