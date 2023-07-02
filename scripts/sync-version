@@ -1,0 +1,13 @@
+#!/bin/sh
+
+NEW_VERSION=$1
+
+for file in $(ls dockerfiles); do
+    sed -i "" "s/\"\(py-luke\)==\(.*\)\"/\"\1==$NEW_VERSION\"/" "dockerfiles/$file"
+done
+
+echo "Update version $NEW_VERSION for dockerfiles"
+
+
+sed -i "" "s/\(__version__\) = \(.*\)/\1 = \"$NEW_VERSION\"/" "luke/__init__.py"
+echo "Updated version $NEW_VERSION for luke/__init__.py"

@@ -28,7 +28,7 @@ def start_server(
     spec.load(file)
     generator = ServerGenerator()
     server = generator.make_server(spec)
-    uvicorn.run(server, log_level=log_level)
+    uvicorn.run(server, log_level=log_level, host=host, port=port)
 
 
 @cli.command("validate")
