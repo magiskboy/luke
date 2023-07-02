@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "py-luke"
 description = "Mock server for OpenAPI documentation"
 readme = "README.md"
+keywords = ["openapi", "jsonschema", "mock server", "validate openapi", "bundle openapi"]
 requires-python = ">=3.7"
 authors = [
     { name = "Nguyen Khac Thanh", email = "nguyenkhacthanh244@gmail.com" },
@@ -51,8 +52,11 @@ dev = [
 [project.scripts]
 luke = "luke.main:cli"
 
-[project-urls]
+[project.urls]
 Homepage = "https://github.com/magiskboy/luke"
+Documentation = "https://github.com/magiskboy/luke#features"
+Issues = "https://github.com/magiskboy/luke/issues/"
+Source = "https://github.com/magiskboy/luke"
 
 [tool.hatch.version]
 path = "luke/__init__.py"
