@@ -1,10 +1,9 @@
 import logging
-import json
 from typing import List, Dict, Any, Tuple, Optional
-import yaml
 import jsonschema
 from .schemas import openapi3_0_schema
 from .file_opener import FileOpener
+from .resolver import Resolver
 
 
 logger = logging.getLogger("luke")
@@ -17,6 +16,7 @@ class OpenAPISpec:
 
     def load(self, filename_or_url: str):
         spec = self.load_file(filename_or_url)
+        self.resolver = Resolver(spec)
         self.validate_openapi(spec)
         self.parse_spec(spec)
 
@@ -34,17 +34,12 @@ class OpenAPISpec:
 
     @classmethod
     def load_file(cls, filename_or_url: str) -> dict:
-        content = FileOpener.open_from_url(filename_or_url)
+        content = FileOpener.open(filename_or_url)
 
         if not content:
             raise ValueError("File is empty")
 
-        try:
-            spec = yaml.load(content, yaml.Loader)
-        except Exception:
-            spec = json.loads(content)
-
-        return spec
+        return FileOpener.load_from_content(content)
 
     @classmethod
     def validate_openapi(cls, spec: dict):
@@ -54,7 +49,7 @@ class OpenAPISpec:
         resolved = spec
         ref = spec.get("$ref")
         if ref:
-            resolved = self.resolve_ref(ref)
+            resolved = self.resolver.resolve(ref)
 
         if resolved["type"] == "object":
             if "properties" in resolved:
@@ -71,19 +66,6 @@ class OpenAPISpec:
             resolved["items"] = self.resolve_spec(resolved["items"])
 
         return resolved
-
-    def resolve_ref(self, ref: str):
-        if not ref.startswith("#/"):
-            raise ValueError("Reference is invalid")
-
-        node = self.spec
-        for node_name in ref[2:].split("/"):
-            if node_name not in node:
-                raise ValueError("Reference not found")
-
-            node = node[node_name]
-
-        return node
 
     @property
     def info(self) -> dict:

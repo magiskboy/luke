@@ -1,11 +1,14 @@
+import json
+import yaml
 import httpx
+
 
 class FileOpener:
     @classmethod
     def open_from_url(cls, url: str) -> str:
         with httpx.Client() as client:
             response = client.get(url, timeout=10)
-            response.raise_for_status()    
+            response.raise_for_status()
             return response.text
 
     @classmethod
@@ -19,3 +22,10 @@ class FileOpener:
             return cls.open_from_url(filename_or_url)
 
         return cls.open_from_file(filename_or_url)
+
+    @classmethod
+    def load_from_content(cls, content: str) -> dict:
+        try:
+            return json.loads(content)
+        except json.JSONDecodeError:
+            return yaml.load(content, yaml.Loader)
