@@ -1,9 +1,10 @@
 import enum
 import uvicorn
 import typer
-from jsonschema import ValidationError
+import jsonschema
 from .server import ServerGenerator
 from .openapi import OpenAPISpec
+from .exceptions import OpenFileError, ValidateOpenAPIError
 
 
 cli = typer.Typer(name="luke", no_args_is_help=True, pretty_exceptions_enable=False)
@@ -24,10 +25,11 @@ def start_server(
     port: int = typer.Option(default=8000),
     log_level: LogLevel = typer.Option(default=LogLevel.info),
 ):
-    spec = OpenAPISpec()
-    spec.load(file)
+    openapi = OpenAPISpec()
+    openapi.load_and_validate(file)
+    openapi.parse()
     generator = ServerGenerator()
-    server = generator.make_server(spec)
+    server = generator.make_server(openapi)
     uvicorn.run(server, log_level=log_level, host=host, port=port)
 
 
@@ -36,16 +38,15 @@ def validate_apidoc(
     file: str = typer.Argument(help="Filename or URL of specification"),
 ):
     try:
-        spec = OpenAPISpec.load_file(file)
-    except Exception:
+        openapi = OpenAPISpec()
+        openapi.load_and_validate(file)
+    except OpenFileError:
         typer.echo(typer.style(f"Can't open file at {file}, please check it", fg="red"))
         exit(1)
-    
-    try:
-        OpenAPISpec.validate_openapi(spec)
-    except ValidationError as e:
+    except ValidateOpenAPIError as e:
         typer.echo(typer.style("Validate failed!!!", fg="red"))
-        typer.echo(typer.style(e.message, fg="red", bold=True))
+        root_exceptio: jsonschema.ValidationError = e.__cause__
+        typer.echo(typer.style(root_exceptio.message, fg="red", bold=True))
         exit(1)
 
     typer.echo(typer.style("Validate pass!!!", fg="green"))

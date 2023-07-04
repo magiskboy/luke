@@ -1,12 +1,11 @@
 from .file_opener import FileOpener
 
-
 class Resolver:
     """
     Resolve $ref, follow https://swagger.io/docs/specification/using-ref/
     """
-    def __init__(self, schema: dict):
-        self.schema = schema
+    def __init__(self, spec: dict):
+        self.spec = spec
 
     def resolve(self, ref: str) -> dict:
         if ref.startswith("#/"):
@@ -15,7 +14,7 @@ class Resolver:
         return self.resolve_external(ref)
 
     def resolve_internal(self, ref: str) -> dict:
-        node = self.schema
+        node = self.spec
         for node_name in ref[2:].split("/"):
             if node_name not in node:
                 raise ValueError("Reference not found")

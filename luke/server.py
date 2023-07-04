@@ -52,7 +52,7 @@ class ServerGenerator:
 
             content = Generator().gen_data(content_spec)
 
-            headers = Generator().gen_data(spec.get_headers_spec())
+            headers = Generator().gen_data(spec.get_header_specs())
             for k in headers:
                 headers[k] = str(headers[k])
 

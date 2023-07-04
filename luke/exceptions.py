@@ -1,0 +1,6 @@
+class OpenFileError(Exception):
+    ...
+
+
+class ValidateOpenAPIError(Exception):
+    ...
